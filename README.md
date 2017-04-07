@@ -10,8 +10,12 @@ Code in the `data/` subfolder might be licensed differently. See the respective 
 
 Additionally the file `data/model/Daylight Box UV.png` is by [KIIRA](https://opengameart.org/content/sky-box-sunny-day) and licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
 
-# Due to possible license conflicts I can't share the data folder yet. soz.
+## Due to possible license conflicts I can't share the data folder yet. soz.
 
+# Screenshots
+
+![Best graphics ever](http://i.imgur.com/VfotwQE.png)
+![Realistic broken particle effect](http://i.imgur.com/ruuOuQY.png)
 
 ---
 
