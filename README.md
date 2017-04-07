@@ -6,6 +6,9 @@ Check the [wiki](http://github.com/JayFoxRox/FIXME) for more information
 License TBD
 Until then: (c) 2017 Jannik Vogel (JayFoxRox)
 
+Code in the `data/` subfolder might be licensed differently. See the respective file headers.
+
+Additionally the file `data/model/Daylight Box UV.png` is by [KIIRA](https://opengameart.org/content/sky-box-sunny-day) and licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
 
 # Due to possible license conflicts I can't share the data folder yet. soz.
 

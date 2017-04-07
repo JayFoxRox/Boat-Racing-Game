@@ -22,3 +22,5 @@ doc-build/
 # Windows global filetypes
 Thumbs.db
 
+# Blender backups
+*.blend1

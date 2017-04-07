@@ -1,0 +1,34 @@
+# Track names are not localized!
+level "Test Pier"
+
+import foo
+
+# This is the environment
+curve A
+* 0.0 1.0
+* 1.0 0.0
+* 1.0 1.1
+
+# This is the track
+curve C
+* 0.5 1.0
+* 1.5 0.0
+* 1.0 1.1
+
+# This is some street lamp + street
+model B
+model D
+model E
+
+# We place meh
+curve A 0.0 B
+
+# Place a pier somewhere
+position E 0.0 1.0 2.0 3.0
+
+# Create street pieces along the road
+fill A
+* B false 0
+
+# Mark which curve is actually the track
+track C false
