@@ -66,7 +66,8 @@ int main(int argc, char* argv[]) {
 
   std::shared_ptr<Texture> texture = std::make_shared<Texture>("data/font/main");
 
-  std::shared_ptr<Text> text = std::make_shared<Text>("data/font/arial_black_regular_65");
+  //std::shared_ptr<Text> text = std::make_shared<Text>("data/font/arial_black_regular_65");
+  std::shared_ptr<Text> text = std::make_shared<Text>("data/font/liberation_mono_regular_65");
 
   std::string meshPath = "data/mesh/cube";
   std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
@@ -466,7 +467,17 @@ int main(int argc, char* argv[]) {
 
     // Test text
     glColor3f(0.1f, 0.2f, 0.5f);
-    text->draw(std::string("boats: ") + std::to_string(boats.size()) + std::string("\nsparks: ") + std::to_string(sparks.size()) + std::string("\nus/F: ") + std::to_string(uspf.count()));
+    
+    
+    
+    std::string debuggingText =
+        std::string("boats: ") +
+            std::to_string(boats.size()) +
+        std::string("\nsparks: ") +
+            std::to_string(sparks.size()) +
+        std::string("\n\xB5/F: ") + //'\xB5' being the micro symbol
+            std::to_string(uspf.count());
+    text->draw(debuggingText);
 
     glPopMatrix();
 #endif
