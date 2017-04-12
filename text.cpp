@@ -24,7 +24,7 @@ class Text {
   };
 
   struct __attribute__((packed)) Symbol {
-    int32_t id;
+    uint32_t id;
     int32_t page;
     uint8_t width;
     uint8_t height;
@@ -91,7 +91,13 @@ class Text {
       }
 
       auto isMatchingSymbol = [&](const Symbol& symbol) -> bool {
-        return symbol.id == static_cast<uint32_t>(c);
+        /* 
+          casting first to unsigned char is necessary, because if we
+          cast to uint32_t directly, the machine sign extends, meaning
+          that the match would fail because of the sign.
+        */
+        unsigned char chUnsigned = static_cast<unsigned char>(c);
+        return symbol.id == static_cast<uint32_t>(chUnsigned);
       };
       const auto& it = std::find_if(symbols.begin(), symbols.end(), isMatchingSymbol);
       assert(it != symbols.end());
