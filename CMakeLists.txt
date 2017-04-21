@@ -25,3 +25,5 @@ target_include_directories(main PUBLIC
 target_link_libraries(main
   ${SDL2_LIBRARIES} ${CURL_LIBRARY} ${GLEW_LIBRARY} -lGL -lGLU ${IL_LIBRARIES} ${ILU_LIBRARIES} ${ASSIMP_LIBRARIES} ${OPENAL_LIBRARY} -lalut
 )
+
+add_subdirectory(data)
