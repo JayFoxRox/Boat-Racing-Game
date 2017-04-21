@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 #include "sound.h"
 #include "mesh.h"
@@ -67,6 +68,25 @@ int main(int argc, char* argv[]) {
   std::shared_ptr<Texture> texture = std::make_shared<Texture>("data/font/main");
 
   std::shared_ptr<Text> text = std::make_shared<Text>("data/font/liberation_sans_bold_65");
+  auto drawText = [&](glm::vec2 position, std::string message) {
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      //glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
+
+      glPushMatrix();
+      glLoadIdentity();
+
+      glTranslatef(position.x, position.y, 0.0f);
+
+      //FIXME: Do AR correction elsewhere
+      float aspectRatio = 800.0f / 450.0f;
+      glScalef(0.0005f, 0.0005f * aspectRatio, 1.0f);
+
+      // Test text
+      text->draw(message);
+
+      glPopMatrix();
+  };
 
   std::string meshPath = "data/mesh/cube";
   std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
@@ -308,9 +328,43 @@ int main(int argc, char* argv[]) {
     }
 #endif
 
+
+    struct Checkpoint {
+      glm::vec3 origin;
+      float angle;
+    };
+    std::vector<Checkpoint> checkpoints{
+      { glm::vec3(-100.0f, 400.0f, 0.0f), glm::radians<float>(0.0f) },
+      { glm::vec3(0.0f, 500.0f, 0.0f), glm::radians<float>(90.0f) },
+      { glm::vec3(100.0f, 400.0f, 0.0f), glm::radians<float>(180.0f) },
+      { glm::vec3(100.0f, -400.0f, 0.0f), glm::radians<float>(180.0f) },
+      { glm::vec3(0.0f, -500.0f, 0.0f), glm::radians<float>(270.0f) },
+      { glm::vec3(-100.0f, -400.0f, 0.0f), glm::radians<float>(180.0f) },
+    };
+    for(unsigned int i = 0; i < checkpoints.size(); i++) {
+      auto& cp = checkpoints[i];
+
+      // Draw imaginary checkpoint wall
+      genericShader->activate();
+      Plane cpPlane = Plane(glm::rotateZ(glm::vec3(0.0f, 1.0f, 0.0f), cp.angle), cp.origin);
+      glColor3f(1.0f, 0.0f, 1.0f);
+      cpPlane.draw(1.0f, 100, 100, glm::vec3(0.0f, 0.0f, 1.0f));
+
+      // Draw tag text
+      genericTexturedShader->activate();
+      genericTexturedShader->set("texture", 0u);
+      glm::vec3 screenPosition = camera->project(cp.origin);
+      glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+      if (screenPosition.z >= 0.0f && screenPosition.z <= 1.0f) {
+        drawText(glm::vec2(screenPosition) / glm::vec2(800.0f, 480.0f) * glm::vec2(2.0f, -2.0f) - glm::vec2(1.0f, -1.0f), std::string("Checkpoint ") + std::to_string(i));
+      }
+    }
+
+
     genericShader->activate();
 
     float gap = 10.0f;
+    glColor3f(1.0f, 1.0f, 1.0f);
     slicePlane.draw(gap, 1100.0f / gap, 1100.0f / gap);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -451,25 +505,9 @@ int main(int argc, char* argv[]) {
 #endif
 
 #if 1
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
-
-    glPushMatrix();
-    glLoadIdentity();
-
-    glTranslatef(-0.95f, 0.9f - 0.2f, 0.0f);
-
-    //FIXME: Do AR correction elsewhere
-    float aspectRatio = 800.0f / 450.0f;
-    glScalef(0.0005f, 0.0005f * aspectRatio, 1.0f);
-
-    // Test text
-    glColor3f(0.1f, 0.2f, 0.5f);
+    glColor4f(0.1f, 0.2f, 0.5f, 1.0f);
     char symbolMicro = '\xB5';
-    text->draw(std::string("boats: ") + std::to_string(boats.size()) + std::string("\nsparks: ") + std::to_string(sparks.size()) + "\n" + symbolMicro + "/F: " + std::to_string(uspf.count()));
-
-    glPopMatrix();
+    drawText(glm::vec2(-0.95f, 0.9f - 0.2f), std::string("boats: ") + std::to_string(boats.size()) + std::string("\nsparks: ") + std::to_string(sparks.size()) + "\n" + symbolMicro + "/F: " + std::to_string(uspf.count()));
 #endif
 
     glFinish();
