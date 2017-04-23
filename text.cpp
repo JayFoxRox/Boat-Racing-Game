@@ -91,7 +91,7 @@ class Text {
       }
 
       auto isMatchingSymbol = [&](const Symbol& symbol) -> bool {
-        return symbol.id == static_cast<uint32_t>(c);
+          return symbol.id == static_cast<unsigned char>(c);
       };
       const auto& it = std::find_if(symbols.begin(), symbols.end(), isMatchingSymbol);
       assert(it != symbols.end());
