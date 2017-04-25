@@ -86,6 +86,11 @@ std::cout << "Placed model at " << offset << std::endl;
     std::ifstream file;
     file.open(path + ".track");
 
+    if (file.fail()) {
+      std::cerr << "Failed to open track " << path << std::endl;
+      return;
+    }
+
     //FIXME: Parse file
     while(!file.eof()) {
       std::string line;
