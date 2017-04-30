@@ -136,7 +136,6 @@ namespace Platform {
   static void drawLine(glm::vec3 a, glm::vec3 b) {
     //FIXME!!!
     glBegin(GL_LINES);
-    glColor3f(1.0f, 1.0f, 1.0f);
     glVertex3f(a.x, a.y, a.z);
     glVertex3f(b.x, b.y, b.z);
     glEnd();
