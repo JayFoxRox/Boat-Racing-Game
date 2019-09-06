@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <cstdlib>
  
-#include <SDL2/SDL.h>
+#include "SDL.h"
 
 #include <IL/il.h>
 #include <IL/ilu.h>

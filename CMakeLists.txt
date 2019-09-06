@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
-project(boatshit)
+project(boat-racing-game)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -16,14 +16,16 @@ find_package(DevIL REQUIRED)
 find_package(ASSIMP REQUIRED)
 find_package(OpenAL REQUIRED)
 
-add_executable(main main.cpp) #water.cpp sky.cpp)
+add_executable(game main.cpp particles.cpp) #water.cpp sky.cpp)
 
-target_include_directories(main PUBLIC
-  ${GLM_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS} ${CURL_INCLUDE_DIR} ${GLEW_INCLUDE_DIR} ${ASSIMP_INCLUDE_DIRS} ${OPENAL_INCLUDE_DIR}
+target_compile_definitions(game PUBLIC -DGLM_ENABLE_EXPERIMENTAL)
+
+target_include_directories(game PUBLIC
+  ${GLM_INCLUDE_DIRS} ${CURL_INCLUDE_DIR} ${GLEW_INCLUDE_DIR} ${ASSIMP_INCLUDE_DIRS} ${OPENAL_INCLUDE_DIR}
 )
  
-target_link_libraries(main
-  ${SDL2_LIBRARIES} ${CURL_LIBRARY} ${GLEW_LIBRARY} -lGL -lGLU ${IL_LIBRARIES} ${ILU_LIBRARIES} ${ASSIMP_LIBRARIES} ${OPENAL_LIBRARY} -lalut
+target_link_libraries(game
+  SDL2::SDL2 ${CURL_LIBRARY} ${GLEW_LIBRARY} -lGL -lGLU ${IL_LIBRARIES} ${ILU_LIBRARIES} ${ASSIMP_LIBRARIES} ${OPENAL_LIBRARY} -lalut
 )
 
 add_subdirectory(data)

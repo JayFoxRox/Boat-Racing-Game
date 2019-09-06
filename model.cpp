@@ -83,13 +83,13 @@ class Model {
   Model(std::string path) : Model(path, path) {}
   Model(std::shared_ptr<Mesh> mesh) : mesh(mesh) {}
 
-  void draw(glm::mat4 matrix = glm::mat4()) {
+  void draw(glm::mat4 matrix = glm::mat4(1.0f)) {
     // FIXME: Draw children
     if (texture != nullptr) {
       texture->activate(0);
     }
     if (scene != nullptr) {
-      recursive_render(glm::mat4(), scene, scene->mRootNode);
+      recursive_render(glm::mat4(1.0f), scene, scene->mRootNode);
     }
 /*
     mesh->draw();

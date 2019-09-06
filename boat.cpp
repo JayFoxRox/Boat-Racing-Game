@@ -88,14 +88,14 @@ class Boat {
       float cornerRadius = finRudderDistance / sinf(rudderAngle);
       cornerRadius *= 1.0f + distance * distance * 0.5f; // FIXME: Hack to limit sharp corners at high speeds
 
-      position.x -= cornerRadius * sinf(-heading);
-      position.y -= cornerRadius * cosf(-heading);
-      heading -= distance / cornerRadius;
-      position.x += cornerRadius * sinf(-heading);
-      position.y += cornerRadius * cosf(-heading);
+      position.x += cornerRadius * cosf(-heading);
+      position.y += cornerRadius * sinf(-heading);
+      heading += distance / cornerRadius;
+      position.x -= cornerRadius * cosf(-heading);
+      position.y -= cornerRadius * sinf(-heading);
     } else {
-      position.x += distance * cosf(heading);
-      position.y += distance * sinf(heading);
+      position.x += distance * sinf(heading);
+      position.y += distance * cosf(heading);
     }
 
     input.steer = 0.0f; //FIXME: Clamp only!
@@ -118,11 +118,20 @@ class Boat {
     return position;
   }
 
+  glm::mat4 matrix() const {
+    glm::mat4 m = glm::mat4(1.0f);
+    m *= glm::translate(glm::vec3(position.x, position.y, position.z));
+    m *= glm::rotate(-heading, glm::vec3(0.0f, 0.0f, 1.0f));
+    return m;
+  }
+
   void draw() {
     //FIXME! Do translation etc
     glPushMatrix();
-    glTranslatef(position.x, position.y, position.z);
-    glRotatef(glm::degrees(heading), 0.0f, 0.0f, 1.0f);
+    //    glTranslatef(position.x, position.y, position.z);
+    //glRotatef(glm::degrees(heading), );
+    glMultMatrixf(glm::value_ptr(matrix()));
+    glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
     model->draw();
     glPopMatrix();
   }

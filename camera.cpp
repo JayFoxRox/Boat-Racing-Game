@@ -19,7 +19,7 @@ class Camera {
   public:
 
   //FIXME: Supply fov in radians..
-  Camera() : fov(0.7853981634f), nearPlane(1.0f), farPlane(1000.0f) {}
+  Camera() : fov(0.7853981634f * 1.5f), nearPlane(1.0f), farPlane(1000.0f) {}
 
   void setFov(float fov) {
     this->fov = fov;
